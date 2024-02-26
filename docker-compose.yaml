@@ -20,6 +20,5 @@ services:
     image: library/postgres:14.1
     env_file:
       - .env
-
     ports:
       - "65432:5432"
