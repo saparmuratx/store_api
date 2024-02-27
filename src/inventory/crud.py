@@ -15,7 +15,7 @@ def get_establishments(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_establishment(db: Session, establishment: schemas.EstablishtmentCreate):
-    db_establishment = models.Establishment(**establishment.model_dump(), items=[])
+    db_establishment = models.Establishment(**establishment.model_dump())
 
     db.add(db_establishment)
 
