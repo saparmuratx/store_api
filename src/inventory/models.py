@@ -9,8 +9,8 @@ class Establishment(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
     description = Column(String)
-    # location = Column(String)
-    # opening_hours = Column(Time)
+    location = Column(String)
+    opening_hours = Column(Time)
 
     items = relationship("Item", back_populates="establishment")
 
@@ -22,6 +22,7 @@ class Item(Base):
     name = Column(String, index=True)
     description = Column(String)
     price = Column(Float)
+    quantity = Column(Integer)
 
     establishment_id = Column(Integer, ForeignKey("establishments.id"))
 
