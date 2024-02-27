@@ -6,6 +6,7 @@ class ItemBase(BaseModel):
     name: str
     description: str
     price: float
+    quantity: int
 
 
 class ItemCreate(ItemBase):
@@ -23,6 +24,8 @@ class Item(ItemBase):
 class EstablishmentBase(BaseModel):
     name: str
     description: str
+    location: str
+    opening_hours: time
 
 
 class EstablishtmentCreate(EstablishmentBase):
