@@ -1,9 +1,9 @@
 version: '3.7'
 
 services:
-  app: 
-    container_name: app
-    image: app_image
+  api: 
+    container_name: api
+    image: api_image
     env_file:
       - .env
     build:
@@ -12,10 +12,10 @@ services:
     ports:
       - "8000:80"
     depends_on:
-      - app_db
+      - db
 
-  app_db:
-    container_name: app_db
+  db:
+    container_name: db
     hostname: app_db
     image: library/postgres:14.1
     env_file:
