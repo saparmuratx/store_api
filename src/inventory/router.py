@@ -26,9 +26,7 @@ def create_establishment(
     return crud.create_establishment(db=db, establishment=establishment)
 
 
-@router.get(
-    "/establishments/{establishment_id}/", response_model=list[schemas.Establishment]
-)
+@router.get("/establishments/{establishment_id}/", response_model=schemas.Establishment)
 def get_establishment(establishment_id: int, db: Session = Depends(get_db)):
     establishment = crud.get_establishment(db=db, establishment_id=establishment_id)
 
@@ -38,14 +36,14 @@ def get_establishment(establishment_id: int, db: Session = Depends(get_db)):
     return establishment
 
 
-@router.get("/establishments/", response_model=schemas.Establishment)
+@router.get("/establishments/", response_model=list[schemas.Establishment])
 def read_establishmetns(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_establishments(db=db, skip=skip, limit=limit)
 
 
 @router.post("/establishments/{establishment_id}/items/", response_model=schemas.Item)
 def create_item(
-    establishment_id: int, item: schemas.Item, db: Session = Depends(get_db)
+    establishment_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)
 ):
     return crud.create_item(db, item=item, establishment_id=establishment_id)
 
