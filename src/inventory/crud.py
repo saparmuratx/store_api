@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from . import schemas, models
 
 
-def get_establishment(db: Session, establishment_id):
+def read_establishment(db: Session, establishment_id):
     return (
         db.query(models.Establishment)
         .filter(models.Establishment.id == establishment_id)
@@ -10,7 +10,7 @@ def get_establishment(db: Session, establishment_id):
     )
 
 
-def get_establishments(db: Session, skip: int = 0, limit: int = 100):
+def read_establishments(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Establishment).offset(skip).limit(limit).all()
 
 
@@ -25,11 +25,11 @@ def create_establishment(db: Session, establishment: schemas.EstablishtmentCreat
     return db_establishment
 
 
-def get_item(db: Session, item_id: int):
+def read_item(db: Session, item_id: int):
     return db.query(models.Item).filter(models.Item.id == item_id).first()
 
 
-def get_items(db: Session, skip: int = 0, limit: int = 100):
+def read_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Item).offset(skip).limit(limit).all()
 
 

@@ -19,7 +19,7 @@ def create_establishment(
 
 @router.get("/establishments/{establishment_id}/", response_model=schemas.Establishment)
 def get_establishment(establishment_id: int, db: Session = Depends(get_db)):
-    establishment = crud.get_establishment(db=db, establishment_id=establishment_id)
+    establishment = crud.read_establishment(db=db, establishment_id=establishment_id)
 
     if not establishment:
         raise HTTPException(status_code=404, detail="Establishment not found")
@@ -29,7 +29,7 @@ def get_establishment(establishment_id: int, db: Session = Depends(get_db)):
 
 @router.get("/establishments/", response_model=list[schemas.Establishment])
 def read_establishmetns(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return crud.get_establishments(db=db, skip=skip, limit=limit)
+    return crud.read_establishments(db=db, skip=skip, limit=limit)
 
 
 @router.post("/establishments/{establishment_id}/items/", response_model=schemas.Item)
@@ -41,13 +41,13 @@ def create_item(
 
 @router.get("/items/", response_model=list[schemas.Item])
 def get_items(skip: int, limit: int, db: Session = Depends(get_db)):
-    items = crud.get_items(db, skip=skip, limit=limit)
+    items = crud.read_items(db, skip=skip, limit=limit)
 
     return items
 
 
 @router.get("/items/{item_id}/", response_model=schemas.Item)
 def get_item(item_id: int, db: Session = Depends(get_db)):
-    item = crud.get_item(db, item_id=item_id)
+    item = crud.read_item(db, item_id=item_id)
 
     return item
