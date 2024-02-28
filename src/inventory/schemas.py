@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import time
 
 
@@ -17,8 +17,7 @@ class Item(ItemBase):
     id: int
     establishment_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class EstablishmentBase(BaseModel):
@@ -32,10 +31,13 @@ class EstablishtmentCreate(EstablishmentBase):
     pass
 
 
+class EstablishmentCreateResponse(EstablishmentBase):
+    id: int
+
+
 class Establishment(EstablishmentBase):
     id: int
 
     items: list[Item] = []
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
