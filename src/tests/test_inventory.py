@@ -15,24 +15,22 @@ def test_root():
 
     assert response.status_code == 200
 
-    print(type(response.json))
-
     assert response.json() == test_response
 
 
 def test_create_est():
     test_data = {
-        "name": "Baghdad",
+        "name": "Alamut Castle",
         "description": "Assasin's HQ",
-        "location": "Ancient Baghdad City",
-        "opening_hours": "09:00",
+        "location": "Qazwin Plane",
+        "opening_hours": "09:00:00",
     }
 
     test_response = {
         "id": 1,
-        "name": "Baghdad",
+        "name": "Alamut Castle",
         "description": "Assasin's HQ",
-        "location": "Ancient Baghdad City",
+        "location": "Qazwin Plane",
         "opening_hours": "09:00:00",
     }
 
@@ -41,3 +39,16 @@ def test_create_est():
     assert response.status_code == 200
 
     assert response.json() == test_response
+
+
+def test_creat_invalid_est():
+    test_data = {
+        "name": "Derinkuyu",
+        "description": "Templar HQ",
+        "location": "Cappadocia",
+        "opening_hours": "ten",
+    }
+
+    response = client.post("/inventory/establishments", json=test_data)
+
+    assert response.status_code == 422
