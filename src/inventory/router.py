@@ -3,23 +3,14 @@ from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
 
-from src.database import SessionLocal, engine
+from src.database import get_db, engine
 
 models.Base.metadata.create_all(bind=engine)
 
 router = APIRouter()
 
 
-def get_db():
-    db = SessionLocal()
-
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@router.post("/establishments/", response_model=schemas.Establishment)
+@router.post("/establishments/", response_model=schemas.EstablishmentCreateResponse)
 def create_establishment(
     establishment: schemas.EstablishtmentCreate, db: Session = Depends(get_db)
 ):
