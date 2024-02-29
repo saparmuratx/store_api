@@ -36,6 +36,11 @@ def read_establishmetns(skip: int = 0, limit: int = 100, db: Session = Depends(g
 def create_item(
     establishment_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)
 ):
+    establishment = crud.read_establishment(db=db, establishment_id=establishment_id)
+
+    if not establishment:
+        raise HTTPException(status_code=404, detail="Establishment not found")
+
     return crud.create_item(db, item=item, establishment_id=establishment_id)
 
 
