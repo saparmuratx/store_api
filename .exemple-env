@@ -1,0 +1,10 @@
+
+DATABASE_URL=postgresql://app:app@app_db:5432/app
+TEST_DATABASE_URL=postgresql://app:app@app_db:5432/postgres
+
+# postgres variables, must be the same as in DATABASE_URL
+POSTGRES_USER=app
+POSTGRES_PASSWORD=app
+POSTGRES_HOST=app_db
+POSTGRES_PORT=5432
+POSTGRES_DB=app
