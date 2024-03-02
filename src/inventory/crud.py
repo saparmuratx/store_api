@@ -1,4 +1,7 @@
+from fastapi import HTTPException
+
 from sqlalchemy.orm import Session
+
 from . import schemas, models
 
 
@@ -42,3 +45,27 @@ def create_item(db: Session, item: schemas.ItemCreate, establishment_id):
     db.refresh(db_item)
 
     return db_item
+
+
+def update_item(db: Session, item: schemas.ItemUpdate, item_id: int):
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+
+    if not db_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    data = item.model_dump()
+
+    for key, value in data.items():
+        if value:
+            setattr(db_item, key, value)
+
+    db.commit()
+
+    return db_item
+
+
+def delete(db: Session, item_id):
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+
+    db.delete(db_item)
+    db.commit()
