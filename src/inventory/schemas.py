@@ -20,6 +20,13 @@ class Item(ItemBase):
     model_config = ConfigDict(from_attributes=True)
 
 
+class ItemUpdate(ItemBase):
+    name: str | None = None
+    description: str | None = None
+    price: float | None = None
+    quantity: int | None = None
+
+
 class EstablishmentBase(BaseModel):
     name: str
     description: str
