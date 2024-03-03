@@ -28,6 +28,42 @@ def create_establishment(db: Session, establishment: schemas.EstablishtmentCreat
     return db_establishment
 
 
+def update_establishment(
+    db: Session, establishment: schemas.EstablishmentUpdate, establishment_id: int
+) -> models.Establishment:
+    db_establishment = (
+        db.query(models.Establishment)
+        .filter(models.Establishment.id == establishment_id)
+        .first()
+    )
+
+    if not db_establishment:
+        raise HTTPException(status_code=404, detail="Establishment not found")
+
+    data = establishment.model_dump()
+
+    for key, value in data.items():
+        if value:
+            setattr(db_establishment, key, value)
+
+    db.commit()
+
+    return db_establishment
+
+
+def delete_establishment(db: Session, establishment_id: int):
+    db_establishment = (
+        db.query(models.Establishment)
+        .filter(models.Establishment.id == establishment_id)
+        .first()
+    )
+
+    # items = db_establishment.items
+
+    db.delete(db_establishment)
+    db.commit()
+
+
 def read_item(db: Session, item_id: int):
     return db.query(models.Item).filter(models.Item.id == item_id).first()
 
@@ -64,7 +100,7 @@ def update_item(db: Session, item: schemas.ItemUpdate, item_id: int):
     return db_item
 
 
-def delete(db: Session, item_id):
+def delete_item(db: Session, item_id):
     db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
 
     db.delete(db_item)

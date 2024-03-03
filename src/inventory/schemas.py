@@ -48,3 +48,14 @@ class Establishment(EstablishmentBase):
     items: list[Item] = []
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class EstablishmentUpdate(EstablishmentBase):
+    name: str | None = None
+    description: str | None = None
+    location: str | None = None
+    opening_hours: time | None = None
+
+
+class EstablishmentUpdateResponse(EstablishmentBase):
+    id: int

@@ -32,6 +32,32 @@ def read_establishmetns(skip: int = 0, limit: int = 100, db: Session = Depends(g
     return crud.read_establishments(db=db, skip=skip, limit=limit)
 
 
+@router.put(
+    "/establishments/{establishment_id}/",
+    response_model=schemas.EstablishmentUpdateResponse,
+)
+def update_establishment(
+    establishment_id: int,
+    establishment: schemas.EstablishmentUpdate,
+    db: Session = Depends(get_db),
+):
+    establishment = crud.update_establishment(db, establishment, establishment_id)
+
+    return establishment
+
+
+@router.delete("/establishments/{establishment_id}/", status_code=204)
+def delete_establishment(establishment_id: int, db: Session = Depends(get_db)):
+    establishment = crud.read_establishment(db, establishment_id)
+
+    if not establishment:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    crud.delete_establishment(db, establishment_id)
+
+    return None
+
+
 @router.post("/establishments/{establishment_id}/items/", response_model=schemas.Item)
 def create_item(
     establishment_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)
@@ -70,13 +96,13 @@ def update_item(item_id: int, item: schemas.ItemUpdate, db: Session = Depends(ge
     return updated_item
 
 
-@router.delete("/item/{item_id}/", status_code=204)
+@router.delete("/items/{item_id}/", status_code=204)
 def delete_item(item_id: int, db: Session = Depends(get_db)):
     item = crud.read_item(db, item_id)
 
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
 
-    crud.delete(db, item_id)
+    crud.delete_item(db, item_id)
 
     return None
