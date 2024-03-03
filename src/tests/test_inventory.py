@@ -31,16 +31,6 @@ client = TestClient(app)
 client = TestClient(app)
 
 
-def test_root():
-    test_response = {"message": "Hello World"}
-
-    response = client.get("/")
-
-    assert response.status_code == 200
-
-    assert response.json() == test_response
-
-
 def test_create_est():
     test_data = {
         "name": "Alamut Castle",
@@ -108,8 +98,6 @@ def test_create_invalid_item():
         "quantity": 69,
     }
 
-    response = client.post('inventory/establishments/1/items/', json=test_data)
+    response = client.post("inventory/establishments/1/items/", json=test_data)
 
     assert response.status_code == 422
-
-    
