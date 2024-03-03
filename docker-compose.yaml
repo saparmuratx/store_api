@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  api: 
+  api:
     container_name: api
     image: api_image
     env_file:
@@ -18,8 +18,9 @@ services:
   db:
     container_name: db
     hostname: app_db
-    image: library/postgres:14.1
+    image: library/postgres:latest
     env_file:
       - .env
     ports:
       - "65432:5432"
+    restart: always
