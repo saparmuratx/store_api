@@ -55,7 +55,7 @@ docker compose up -d --build
 
 ### Project Structure
 
-```
+```json
 ├── src
 │   ├── inventory               
 │   │   ├── crud.py     # CRUD functions
@@ -77,7 +77,7 @@ docker compose up -d --build
 
 ## Documentation and Request Examples
 
-Documentation with **Swagger UI** is located in `http://localhost:8000/docs` 
+Documentation with **Swagger UI** is located in `http://localhost:8000/docs`
 
 alternatively **ReDoc** `http://localhost:8000/redoc`
 
@@ -126,8 +126,8 @@ Response
 [
     {
         "name": "Galata headquarters",
-        "description": "Ottoman Brotherhood main quarters",
-        "location": "Constantinople",
+        "description": "Isntanbul Brotherhood main quarters",
+        "location": "Istanbul city",
         "opening_hours": "09:30:00",
         "id": 1,
         "items": []
@@ -151,23 +151,23 @@ Response
 
 ```json
 {
-    "name": "Baghdad HQ",
-    "description": "Baghdad Brotherhood office",
-    "location": "Baghdad City",
+    "name": "Galata headquarters",
+    "description": "Isntanbul Brotherhood main quarters",
+    "location": "Istanbul city",    
     "opening_hours": "10:00:00",
     "id": 1,
     "items": [
         {
-            "name": "Hidden Blade Baghdad Steel",
-            "description": "Deadly Assasin's weapon with faster retractor",
+            "name": "Chai",
+            "description": "Turkish style tea",
             "price": 250.0,
             "quantity": 420,
             "id": 1,
             "establishment_id": 6
         },
         {
-            "name": "Mamluk Armour",
-            "description": "Heavy armour",
+            "name": "Kahve",
+            "description": "Turkish style coffee",
             "price": 420.0,
             "quantity": 69,
             "id": 2,
@@ -185,8 +185,8 @@ Body
 
 ```json
 {
-    "description": "Isntanbul Brotherhood main quarters",
-    "location": "Istanbul city",
+    "location": "Constantinople",
+    "opening_hours": "11:30:00"
 }
 ```
 
@@ -196,8 +196,8 @@ Response
 {
     "name": "Galata headquarters",
     "description": "Isntanbul Brotherhood main quarters",
-    "location": "Istanbul city",
-    "opening_hours": "09:30:00",
+    "location": "Constantinople",
+    "opening_hours": "11:30:00",
     "id": 1
 }
 ```
@@ -207,7 +207,7 @@ Response
 `DELETE` : `/inventory/establishments/{establishment_id}/`
 
 ```json
-returns 204 No Content
+    204 No Content
 ```
 
 ### Products aka Items
@@ -220,9 +220,9 @@ Body
 
 ```json
 {
-    "name": "Hidden Blade Damascus",
-    "description": "Deadly Assasin's weapon",
-    "price": 150.0,
+    "name": "Kahve",
+    "description": "Turkish style coffee",    
+    "price": 420.0,
     "quantity": 69
 }
 ```
@@ -231,9 +231,9 @@ Response
 
 ```json
 {
-    "name": "Hidden Blade Damascus",
-    "description": "Deadly Assasin's weapon",
-    "price": 150.0,
+    "name": "Kahve",
+    "description": "Turkish style coffee",    
+    "price": 420.0,
     "quantity": 69,
     "id": 1,
     "establishment_id": 1
@@ -255,20 +255,20 @@ Response:
 ```json
 [
     {
-        "name": "Hidden Blade Baghdad Steel",
-        "description": "Forged by master Assasins",
-        "price": 430.0,
-        "quantity": 420,
-        "id": 3,
-        "establishment_id": 2
+        "name": "Kahve",
+        "description": "Turkish style coffee",
+        "price": 420.0,
+        "quantity": 69,
+        "id": 1,
+        "establishment_id": 1
     },
     {
-        "name": "Hidden Blade Damascus",
-        "description": "Deadly weapon of Assasin's",
+        "name": "Chai",
+        "description": "Turkish style tea",
         "price": 150.0,
         "quantity": 69,
-        "id": 4,
-        "establishment_id": 2
+        "id": 2,
+        "establishment_id": 1
     }
 ]
 ```
@@ -281,12 +281,12 @@ Response
 
 ```json
 {
-    "name": "Hidden Blade Baghdad Steel",
-    "description": "Deadly Assasin's weapon with faster retractor",
-    "price": 250.0,
-    "quantity": 420,
-    "id": 3,
-    "establishment_id": 2
+    "name": "Chai",
+    "description": "Turkish style tea",
+    "price": 150.0,
+    "quantity": 69,
+    "id": 2,
+    "establishment_id": 1
 }
 ```
 
@@ -299,7 +299,7 @@ Body
 ```json
 {
     "price": 430.0,
-    "description": "Forged by master Assasin's"
+    "description": "Kyrgyz style tea"
 }
 ```
 
@@ -307,12 +307,12 @@ Response
 
 ```json
 {
-    "name": "Hidden Blade Baghdad Steel",
-    "description": "Forged by master Assasin's",
+    "name": "Chai",
+    "description": "Kyrgyz style tea",
     "price": 430.0,
-    "quantity": 420,
-    "id": 3,
-    "establishment_id": 2
+    "quantity": 69,
+    "id": 2,
+    "establishment_id": 1
 }
 ```
 
@@ -321,5 +321,5 @@ Response
 `DELETE` : `/inventory/items/{item_id}/`
 
 ```json
-returns 204 No Content
+    204 No Content
 ```
