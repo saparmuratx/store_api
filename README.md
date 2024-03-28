@@ -55,7 +55,7 @@ docker compose up -d --build
 
 ### Project Structure
 
-```json
+```
 ├── src
 │   ├── inventory               
 │   │   ├── crud.py     # CRUD functions
