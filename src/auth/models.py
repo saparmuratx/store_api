@@ -15,3 +15,5 @@ class User(Base):
     name = Column(String)
 
     hashed_password = Column(String)
+
+    created_date = Column(DateTime, default=datetime.now())
