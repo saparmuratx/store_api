@@ -2,11 +2,12 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 
-class UserAuth(BaseModel):
+class UserInDB(BaseModel):
     id: int
     username: str
     name: str
     hashed_password: str
+    created_date: datetime
 
 
 class BaseUser(BaseModel):
@@ -34,3 +35,8 @@ class UserChangePassword(BaseModel):
 class UserLogin(BaseModel):
     username: str
     password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
