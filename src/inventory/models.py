@@ -12,6 +12,8 @@ class Establishment(Base):
     location = Column(String)
     opening_hours = Column(Time)
 
+    user_id = Column(Integer, ForeignKey("users.id"))
+
     items = relationship("Item", back_populates="establishment")
 
 
@@ -23,6 +25,8 @@ class Item(Base):
     description = Column(String)
     price = Column(Float)
     quantity = Column(Integer)
+
+    user_id = Column(Integer, ForeignKey("users.id"))
 
     establishment_id = Column(Integer, ForeignKey("establishments.id"))
 
