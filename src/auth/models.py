@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from sqlalchemy.orm import relationship
 
 from src.database import Base
 
@@ -17,3 +18,9 @@ class User(Base):
     hashed_password = Column(String)
 
     created_date = Column(DateTime, default=datetime.now())
+
+    active = Column(Boolean, default=True)
+
+    establishments = relationship("Establishment", backref="establishment")
+
+    items = relationship("Item", backref="item")
