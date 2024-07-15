@@ -5,7 +5,7 @@ from src.inventory.router import router
 from src.auth.router import auth_router
 
 app = FastAPI(
-    title="Bazar API",
+    title="Store API",
     description="API for Vendors and Items",
     version="0.6.9",
 )
