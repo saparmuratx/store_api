@@ -1,4 +1,4 @@
-# Inventory API - techstart_test
+# Store API
 
 Test assignment for Backend developer
 
