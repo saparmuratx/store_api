@@ -15,7 +15,7 @@ class ItemCreate(ItemBase):
 
 class Item(ItemBase):
     id: int
-    establishment_id: int
+    vendor_id: int
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -27,23 +27,23 @@ class ItemUpdate(ItemBase):
     quantity: int | None = None
 
 
-class EstablishmentBase(BaseModel):
+class VendorBase(BaseModel):
     name: str
     description: str
     location: str
     opening_hours: time
 
 
-class EstablishmentCreate(EstablishmentBase):
+class VendorCreate(VendorBase):
     pass
 
 
-class EstablishmentCreateResponse(EstablishmentBase):
+class VendorCreateResponse(VendorBase):
     id: int
     user_id: int
 
 
-class Establishment(EstablishmentBase):
+class Vendor(VendorBase):
     id: int
 
     user_id: int
@@ -52,12 +52,12 @@ class Establishment(EstablishmentBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-class EstablishmentUpdate(EstablishmentBase):
+class VendorUpdate(VendorBase):
     name: str | None = None
     description: str | None = None
     location: str | None = None
     opening_hours: time | None = None
 
 
-class EstablishmentUpdateResponse(EstablishmentBase):
+class VendorUpdateResponse(VendorBase):
     id: int

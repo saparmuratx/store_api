@@ -14,57 +14,53 @@ models.Base.metadata.create_all(bind=engine)
 router = APIRouter()
 
 
-@router.post("/vendors/", response_model=schemas.EstablishmentCreateResponse)
+@router.post("/vendors/", response_model=schemas.VendorCreateResponse)
 def create_vendor(
-    establishment: schemas.EstablishmentCreate,
+    vendor: schemas.VendorCreate,
     current_user: Annotated[User, Depends(get_current_active_user)],
     db: Session = Depends(get_db),
 ):
-    return crud.create_establishment(
-        db=db, establishment=establishment, user_id=current_user.id
-    )
+    return crud.create_vendor(db=db, vendor=vendor, user_id=current_user.id)
 
 
-@router.get("/vendors/{vendor_id}/", response_model=schemas.Establishment)
+@router.get("/vendors/{vendor_id}/", response_model=schemas.Vendor)
 def get_vendor(vendor_id: int, db: Session = Depends(get_db)):
-    establishment = crud.read_establishment(db=db, establishment_id=vendor_id)
+    vendor = crud.read_vendor(db=db, vendor_id=vendor_id)
 
-    if not establishment:
+    if not vendor:
         raise HTTPException(status_code=404, detail="Vendor not found")
 
-    return establishment
+    return vendor
 
 
-@router.get("/vendors/", response_model=list[schemas.Establishment])
-def read_establishmetns(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return crud.read_establishments(db=db, skip=skip, limit=limit)
+@router.get("/vendors/", response_model=list[schemas.Vendor])
+def list_vendors(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return crud.read_vendors(db=db, skip=skip, limit=limit)
 
 
 @router.put(
     "/vendors/{vendor_id}/",
-    response_model=schemas.EstablishmentUpdateResponse,
+    response_model=schemas.VendorUpdateResponse,
 )
 def update_vendor(
     vendor_id: int,
-    establishment: schemas.EstablishmentUpdate,
+    vendor: schemas.VendorUpdate,
     current_user: Annotated[User, Depends(get_current_active_user)],
     db: Session = Depends(get_db),
 ):
-    establishment = crud.update_establishment(
-        db, establishment, vendor_id, current_user.id
-    )
+    vendor = crud.update_vendor(db, vendor, vendor_id, current_user.id)
 
-    return establishment
+    return vendor
 
 
 @router.delete("/vendors/{vendor_id}/", status_code=204)
 def delete_vendor(vendor_id: int, db: Session = Depends(get_db)):
-    establishment = crud.read_establishment(db, vendor_id)
+    vendor = crud.read_vendor(db, vendor_id)
 
-    if not establishment:
+    if not vendor:
         raise HTTPException(status_code=404, detail="Item not found")
 
-    crud.delete_establishment(db, vendor_id)
+    crud.delete_vendor(db, vendor_id)
 
     return None
 
@@ -76,24 +72,22 @@ def create_item(
     current_user: Annotated[User, Depends(get_current_active_user)],
     db: Session = Depends(get_db),
 ):
-    establishment = crud.read_establishment(db, vendor_id)
+    vendor = crud.read_vendor(db, vendor_id)
 
-    if not establishment:
+    if not vendor:
         raise HTTPException(
             status_code=404,
             detail=f"Vendor not found with ID {vendor_id}",
         )
 
-    if establishment.user_id != current_user.id:
+    if vendor.user_id != current_user.id:
         raise crud.no_permission_error
 
-    return crud.create_item(
-        db, item=item, establishment_id=vendor_id, user_id=current_user.id
-    )
+    return crud.create_item(db, item=item, vendor_id=vendor_id, user_id=current_user.id)
 
 
 @router.get("/items/", response_model=list[schemas.Item])
-def get_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def list_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud.read_items(db, skip=skip, limit=limit)
 
     return items

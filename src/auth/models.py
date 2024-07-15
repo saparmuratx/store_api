@@ -21,6 +21,6 @@ class User(Base):
 
     active = Column(Boolean, default=True)
 
-    establishments = relationship("Establishment", backref="establishment")
+    vendors = relationship("Vendor", backref="vendor")
 
     items = relationship("Item", backref="item")
