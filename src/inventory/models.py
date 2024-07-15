@@ -3,8 +3,8 @@ from sqlalchemy.orm import relationship
 from src.database import Base
 
 
-class Establishment(Base):
-    __tablename__ = "establishments"
+class Vendor(Base):
+    __tablename__ = "vendors"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
@@ -14,7 +14,7 @@ class Establishment(Base):
 
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    items = relationship("Item", back_populates="establishment")
+    items = relationship("Item", back_populates="vendor")
 
 
 class Item(Base):
@@ -28,6 +28,6 @@ class Item(Base):
 
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    establishment_id = Column(Integer, ForeignKey("establishments.id"))
+    vendor_id = Column(Integer, ForeignKey("vendors.id"))
 
-    establishment = relationship("Establishment", back_populates="items")
+    vendor = relationship("Vendor", back_populates="items")

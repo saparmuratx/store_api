@@ -11,72 +11,53 @@ no_permission_error = HTTPException(
 )
 
 
-def read_establishment(db: Session, establishment_id):
-    return (
-        db.query(models.Establishment)
-        .filter(models.Establishment.id == establishment_id)
-        .first()
-    )
+def read_vendor(db: Session, vendor_id):
+    return db.query(models.Vendor).filter(models.Vendor.id == vendor_id).first()
 
 
-def read_establishments(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Establishment).offset(skip).limit(limit).all()
+def read_vendors(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Vendor).offset(skip).limit(limit).all()
 
 
-def create_establishment(
-    db: Session, establishment: schemas.EstablishmentCreate, user_id: int
-):
-    db_establishment = models.Establishment(
-        **establishment.model_dump(), user_id=user_id
-    )
+def create_vendor(db: Session, vendor: schemas.VendorCreate, user_id: int):
+    db_vendor = models.Vendor(**vendor.model_dump(), user_id=user_id)
 
-    db.add(db_establishment)
+    db.add(db_vendor)
 
     db.commit()
-    db.refresh(db_establishment)
+    db.refresh(db_vendor)
 
-    return db_establishment
+    return db_vendor
 
 
-def update_establishment(
-    db: Session,
-    establishment: schemas.EstablishmentUpdate,
-    establishment_id: int,
-    user_id: int,
-) -> models.Establishment:
-    db_establishment = (
-        db.query(models.Establishment)
-        .filter(models.Establishment.id == establishment_id)
-        .first()
-    )
+def update_vendor(
+    db: Session, vendor: schemas.VendorUpdate, vendor_id: int, user_id: int
+) -> models.Vendor:
+    db_vendor = db.query(models.Vendor).filter(models.Vendor.id == vendor_id).first()
 
-    if not db_establishment:
+    if not db_vendor:
         raise HTTPException(status_code=404, detail="Vendor not found")
 
-    if db_establishment.user_id != user_id:
+    if db_vendor.user_id != user_id:
         raise no_permission_error
 
-    data = establishment.model_dump()
+    data = vendor.model_dump()
 
     for key, value in data.items():
         if value:
-            setattr(db_establishment, key, value)
+            setattr(db_vendor, key, value)
 
     db.commit()
 
-    return db_establishment
+    return db_vendor
 
 
-def delete_establishment(db: Session, establishment_id: int):
-    db_establishment = (
-        db.query(models.Establishment)
-        .filter(models.Establishment.id == establishment_id)
-        .first()
-    )
+def delete_vendor(db: Session, vendor_id: int):
+    db_vendor = db.query(models.Vendor).filter(models.Vendor.id == vendor_id).first()
 
-    # items = db_establishment.items
+    # items = db_vendor.items
 
-    db.delete(db_establishment)
+    db.delete(db_vendor)
     db.commit()
 
 
@@ -87,19 +68,15 @@ def read_item(db: Session, item_id: int):
 def read_items(db: Session, skip: int = 0, limit: int = 100):
     return (
         db.query(models.Item)
-        .filter(models.Item.establishment_id.is_not(None))
+        .filter(models.Item.vendor_id.is_not(None))
         .offset(skip)
         .limit(limit)
         .all()
     )
 
 
-def create_item(
-    db: Session, item: schemas.ItemCreate, establishment_id: int, user_id: int
-):
-    db_item = models.Item(
-        **item.model_dump(), establishment_id=establishment_id, user_id=user_id
-    )
+def create_item(db: Session, item: schemas.ItemCreate, vendor_id: int, user_id: int):
+    db_item = models.Item(**item.model_dump(), vendor_id=vendor_id, user_id=user_id)
 
     db.add(db_item)
 

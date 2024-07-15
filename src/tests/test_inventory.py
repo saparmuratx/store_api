@@ -45,7 +45,7 @@ def test_create_est():
         "opening_hours": "09:00:00",
     }
 
-    response = client.post("/inventory/establishments", json=test_data)
+    response = client.post("/inventory/vendors", json=test_data)
 
     assert response.status_code == 200
 
@@ -60,7 +60,7 @@ def test_create_invalid_est():
         "opening_hours": "ten",
     }
 
-    response = client.post("/inventory/establishments", json=test_data)
+    response = client.post("/inventory/vendors", json=test_data)
 
     assert response.status_code == 422
 
@@ -79,10 +79,10 @@ def test_create_item():
         "price": 420.0,
         "quantity": 69,
         "id": 1,
-        "establishment_id": 1,
+        "vendor_id": 1,
     }
 
-    response = client.post("/inventory/establishments/1/items/", json=test_data)
+    response = client.post("/inventory/vendors/1/items/", json=test_data)
 
     assert response.status_code == 200
 
@@ -102,7 +102,7 @@ def test_update_item():
         "price": 210.0,
         "quantity": 2,
         "id": 1,
-        "establishment_id": 1,
+        "vendor_id": 1,
     }
 
     response = client.put("/inventory/items/1", json=test_data)
@@ -121,7 +121,7 @@ def test_update_item_invalid():
         "quantity": "a lot of them",
     }
 
-    response = client.post("/inventory/establishments/1/items/", json=test_data)
+    response = client.post("/inventory/vendors/1/items/", json=test_data)
 
     assert response.status_code == 422
 
@@ -133,7 +133,7 @@ def test_create_invalid_item():
         "quantity": 69,
     }
 
-    response = client.post("inventory/establishments/1/items/", json=test_data)
+    response = client.post("inventory/vendors/1/items/", json=test_data)
 
     assert response.status_code == 422
 
@@ -141,7 +141,7 @@ def test_create_invalid_item():
 def test_delete_invalide_item():
     test_response = {"detail": "Item not found"}
 
-    response = client.delete("inventory/establishments/32/")
+    response = client.delete("inventory/vendors/32/")
 
     assert response.status_code == 404
 
@@ -149,6 +149,6 @@ def test_delete_invalide_item():
 
 
 def test_delete_item():
-    response = client.delete("inventory/establishments/1/")
+    response = client.delete("inventory/vendors/1/")
 
     assert response.status_code == 204
