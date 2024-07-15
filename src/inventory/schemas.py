@@ -34,17 +34,19 @@ class EstablishmentBase(BaseModel):
     opening_hours: time
 
 
-class EstablishtmentCreate(EstablishmentBase):
+class EstablishmentCreate(EstablishmentBase):
     pass
 
 
 class EstablishmentCreateResponse(EstablishmentBase):
     id: int
+    user_id: int
 
 
 class Establishment(EstablishmentBase):
     id: int
 
+    user_id: int
     items: list[Item] = []
 
     model_config = ConfigDict(from_attributes=True)

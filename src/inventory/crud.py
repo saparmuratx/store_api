@@ -5,6 +5,12 @@ from sqlalchemy.orm import Session
 from . import schemas, models
 
 
+no_permission_error = HTTPException(
+    status_code=401,
+    detail="You do not have permission to update this resource.",
+)
+
+
 def read_establishment(db: Session, establishment_id):
     return (
         db.query(models.Establishment)
@@ -17,8 +23,12 @@ def read_establishments(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Establishment).offset(skip).limit(limit).all()
 
 
-def create_establishment(db: Session, establishment: schemas.EstablishtmentCreate):
-    db_establishment = models.Establishment(**establishment.model_dump())
+def create_establishment(
+    db: Session, establishment: schemas.EstablishmentCreate, user_id: int
+):
+    db_establishment = models.Establishment(
+        **establishment.model_dump(), user_id=user_id
+    )
 
     db.add(db_establishment)
 
@@ -29,7 +39,10 @@ def create_establishment(db: Session, establishment: schemas.EstablishtmentCreat
 
 
 def update_establishment(
-    db: Session, establishment: schemas.EstablishmentUpdate, establishment_id: int
+    db: Session,
+    establishment: schemas.EstablishmentUpdate,
+    establishment_id: int,
+    user_id: int,
 ) -> models.Establishment:
     db_establishment = (
         db.query(models.Establishment)
@@ -38,7 +51,10 @@ def update_establishment(
     )
 
     if not db_establishment:
-        raise HTTPException(status_code=404, detail="Establishment not found")
+        raise HTTPException(status_code=404, detail="Vendor not found")
+
+    if db_establishment.user_id != user_id:
+        raise no_permission_error
 
     data = establishment.model_dump()
 
@@ -78,8 +94,12 @@ def read_items(db: Session, skip: int = 0, limit: int = 100):
     )
 
 
-def create_item(db: Session, item: schemas.ItemCreate, establishment_id):
-    db_item = models.Item(**item.model_dump(), establishment_id=establishment_id)
+def create_item(
+    db: Session, item: schemas.ItemCreate, establishment_id: int, user_id: int
+):
+    db_item = models.Item(
+        **item.model_dump(), establishment_id=establishment_id, user_id=user_id
+    )
 
     db.add(db_item)
 
@@ -89,11 +109,14 @@ def create_item(db: Session, item: schemas.ItemCreate, establishment_id):
     return db_item
 
 
-def update_item(db: Session, item: schemas.ItemUpdate, item_id: int):
+def update_item(db: Session, item: schemas.ItemUpdate, item_id: int, user_id: int):
     db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
 
     if not db_item:
         raise HTTPException(status_code=404, detail="Item not found")
+
+    if db_item.user_id != user_id:
+        raise no_permission_error
 
     data = item.model_dump()
 
@@ -106,8 +129,11 @@ def update_item(db: Session, item: schemas.ItemUpdate, item_id: int):
     return db_item
 
 
-def delete_item(db: Session, item_id):
+def delete_item(db: Session, item_id: int, user_id: int):
     db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+
+    if db_item.user_id != user_id:
+        raise no_permission_error
 
     db.delete(db_item)
     db.commit()
