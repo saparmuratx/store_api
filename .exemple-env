@@ -1,6 +1,10 @@
 
 DATABASE_URL=postgresql://app:app@app_db:5432/app
-TEST_DATABASE_URL=postgresql://app:app@app_db:5432/postgres
+TEST_DATABASE_URL=postgresql://app:app@app_db:5432/
+
+SECRET_KEY=TOKEN
+ACCESS_TOKEN_EXPIRATION = 15
+JWT_ALGORITHM=HS256
 
 # postgres variables, must be the same as in DATABASE_URL
 POSTGRES_USER=app
