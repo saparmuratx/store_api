@@ -81,11 +81,11 @@ Documentation with **Swagger UI** is located in `http://localhost:8000/docs`
 
 alternatively **ReDoc** `http://localhost:8000/redoc`
 
-### Establishments
+### Vendors
 
-#### Create Establishment
+#### Create Vendor
 
-`POST` : `http://localhost:8000/inventory/establishments`
+`POST` : `http://localhost:8000/inventory/vendors`
 
 Body
 
@@ -110,15 +110,15 @@ Response
 }
 ```
 
-#### List Establishments
+#### List Vendors
 
-`GET` : `/inventory/establishments/?skip=0&limit=100`
+`GET` : `/inventory/vendors/?skip=0&limit=100`
 
 Use path parameters for pagination:
 
-`skip` : number of establishments to skip, starting from the beginning
+`skip` : number of vendors to skip, starting from the beginning
 
-`limit` : number of establishments to retrieve
+`limit` : number of vendors to retrieve
 
 Response
 
@@ -143,9 +143,9 @@ Response
 ]
 ```
 
-#### Read Establishment
+#### Read Vendor
 
-`GET` : `/inventory/establishments/{establishment_id}/`
+`GET` : `/inventory/vendors/{vendor_id}/`
 
 Response
 
@@ -163,7 +163,7 @@ Response
             "price": 250.0,
             "quantity": 420,
             "id": 1,
-            "establishment_id": 6
+            "vendor_id": 6
         },
         {
             "name": "Kahve",
@@ -171,15 +171,15 @@ Response
             "price": 420.0,
             "quantity": 69,
             "id": 2,
-            "establishment_id": 6
+            "vendor_id": 6
         }
     ]
 }
 ```
 
-#### Update Establishment
+#### Update Vendor
 
-`PUT` : `/inventory/establishments/{establishment_id}/`
+`PUT` : `/inventory/vendors/{vendor_id}/`
 
 Body
 
@@ -202,9 +202,9 @@ Response
 }
 ```
 
-#### Delete Establishment
+#### Delete Vendor
 
-`DELETE` : `/inventory/establishments/{establishment_id}/`
+`DELETE` : `/inventory/vendors/{vendor_id}/`
 
 ```json
     204 No Content
@@ -214,7 +214,7 @@ Response
 
 #### Create Item
 
-`POST` : `http://localhost:8000/inventory/establishments/{establishment_id}/items/`
+`POST` : `http://localhost:8000/inventory/vendors/{vendor_id}/items/`
 
 Body
 
@@ -236,7 +236,7 @@ Response
     "price": 420.0,
     "quantity": 69,
     "id": 1,
-    "establishment_id": 1
+    "vendor_id": 1
 }
 ```
 
@@ -260,7 +260,7 @@ Response:
         "price": 420.0,
         "quantity": 69,
         "id": 1,
-        "establishment_id": 1
+        "vendor_id": 1
     },
     {
         "name": "Chai",
@@ -268,7 +268,7 @@ Response:
         "price": 150.0,
         "quantity": 69,
         "id": 2,
-        "establishment_id": 1
+        "vendor_id": 1
     }
 ]
 ```
@@ -286,7 +286,7 @@ Response
     "price": 150.0,
     "quantity": 69,
     "id": 2,
-    "establishment_id": 1
+    "vendor_id": 1
 }
 ```
 
@@ -312,7 +312,7 @@ Response
     "price": 430.0,
     "quantity": 69,
     "id": 2,
-    "establishment_id": 1
+    "vendor_id": 1
 }
 ```
 
